@@ -1,6 +1,7 @@
 import configparser
 import sys
 from github import Github
+import githubConnector
 
 config = configparser.ConfigParser()
 config.read("config")
@@ -8,11 +9,11 @@ try:
   user = config['Credentials']['user']
   password = config['Credentials']['pass']
 except KeyError:
-  print("Config file needed. Plese, copy and fill config-default.")
+  print("Config file needed. Please, copy and fill config-default.")
   sys.exit()
-print(user, password)
+#print(user, password)
 
-g = Github(user, password)
+g = githubConnector.connect(user, password)
 
-for repo in g.get_user().get_repos():
-  print(repo.name)
+print ("Proyects that "+ user + " collaborates with:")
+githubConnector.show_projects(g)
