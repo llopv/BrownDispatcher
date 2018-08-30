@@ -1,7 +1,7 @@
 import configparser
 import sys
-from github import Github
 from GithubService import GithubService
+from DataService import DataService
 
 config = configparser.ConfigParser()
 config.read("config")
@@ -12,5 +12,11 @@ except KeyError:
   print("Config file needed. Please, copy and fill config-default.")
   sys.exit()
 
-g = GithubService(user, password)
-g.getUserIssues(user)
+data = DataService(GithubService(user, password))
+#data.addProject('ipfs/go-ipfs')
+data.fetchUserIssues()
+projectIssues, userIssues = data.getIssues()
+print(projectIssues)
+#projectIssues.to_csv("projectIssues.csv")
+print(userIssues)
+userIssues.to_csv("userIssues.csv")
